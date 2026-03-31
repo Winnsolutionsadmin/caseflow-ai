@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaseFlow AI - Never Miss Another Deadline</title>
+    <meta name="description" content="AI-powered case management for law firms. Eliminate missed deadlines, automate client intake, and recover billable hours with intelligent legal workflow automation.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'legal-navy': '#0F1419',
+                        'deep-navy': '#1a1a2e',
+                        'legal-gold': '#B8860B',
+                        'winn-blue': '#0066ff',
+                        'light-gray': '#F8F9FA'
+                    },
+                    fontFamily: {
+                        'legal': ['ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "CaseFlow AI",
+        "description": "AI-powered case management platform for law firms",
+        "url": "https://caseflow.ai",
+        "applicationCategory": "Legal Software",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "1999",
+            "priceCurrency": "USD",
+            "billingIncrement": "Monthly"
+        },
+        "provider": {
+            "@type": "Organization",
+            "name": "Winn Ventures",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "email": "hello@caseflow.ai",
+                "contactType": "sales"
+            }
+        }
+    }
+    </script>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #B8860B, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0F1419 0%, #1a1a2e 50%, #0F1419 100%);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body class="bg-legal-navy text-white overflow-x-hidden">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-legal-navy/80 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">CaseFlow AI</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="hover:text-legal-gold transition-colors">Features</a>
+                    <a href="#pricing" class="hover:text-legal-gold transition-colors">Pricing</a>
+                    <a href="#testimonials" class="hover:text-legal-gold transition-colors">Testimonials</a>
+                    <a href="mailto:hello@caseflow.ai" class="bg-winn-blue hover:bg-blue-600 px-6 py-2 rounded-lg transition-colors">Get Demo</a>
+                </div>
+                <button class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center hero-gradient overflow-hidden">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content max-w-7xl mx-auto px-6 py-24">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                        Never Miss Another 
+                        <span class="gradient-text">Deadline</span>
+                    </h1>
+                    <p class="text-xl lg:text-2xl mb-8 text-gray-300 max-w-2xl">
+                        AI-powered case management that eliminates missed deadlines, automates client intake, and recovers 8-15 billable hours per attorney per week.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="mailto:hello@caseflow.ai" class="bg-winn-blue hover:bg-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105">
+                            Start Free Trial
+                        </a>
+                        <a href="#demo" class="border border-legal-gold text-legal-gold hover:bg-legal-gold hover:text-legal-navy px-8 py-4 rounded-lg text-lg font-semibold transition-all">
+                            Watch Demo
+                        </a>
+                    </div>
+                    <div class="mt-8 text-sm text-gray-400">
+                        ✅ 30-day free trial &nbsp;&nbsp; ✅ No setup fees &nbsp;&nbsp; ✅ Cancel anytime
+                    </div>
+                </div>
+                <div class="hidden lg:block"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="py-24 bg-deep-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">The $50K Problem</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto reveal">Every missed deadline, lost case, and client complaint costs your firm more than just money—it costs reputation.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="text-6xl mb-4">⏰</div>
+                    <h3 class="text-2xl font-bold mb-4 text-legal-gold">Missed Deadlines</h3>
+                    <p class="text-gray-300 mb-4">Statute of limitations, filing deadlines, and court dates slip through the cracks of manual calendar systems.</p>
+                    <div class="text-3xl font-bold text-red-400">$47K</div>
+                    <div class="text-sm text-gray-400">Average cost per missed deadline</div>
+                </div>
+                
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="text-6xl mb-4">📋</div>
+                    <h3 class="text-2xl font-bold mb-4 text-legal-gold">Slow Intake</h3>
+                    <p class="text-gray-300 mb-4">45-minute intake calls, manual conflict checks, and delayed response times lose 30% of qualified leads.</p>
+                    <div class="text-3xl font-bold text-red-400">$23K</div>
+                    <div class="text-sm text-gray-400">Lost revenue per month from slow intake</div>
+                </div>
+                
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="text-6xl mb-4">📱</div>
+                    <h3 class="text-2xl font-bold mb-4 text-legal-gold">Client Communication Gaps</h3>
+                    <p class="text-gray-300 mb-4">Clients complain about lack of updates, leading to negative reviews and lost referrals.</p>
+                    <div class="text-3xl font-bold text-red-400">15%</div>
+                    <div class="text-sm text-gray-400">Average referral rate lost to poor communication</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-24 bg-legal-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">How CaseFlow Works</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto reveal">Three steps to transform your practice</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-12">
+                <div class="text-center reveal">
+                    <div class="w-20 h-20 bg-winn-blue rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">1</div>
+                    <h3 class="text-2xl font-bold mb-4">AI Learns Your Practice</h3>
+                    <p class="text-gray-300">Connect your existing tools (Outlook, Google Calendar, existing PMS). Our AI analyzes your case patterns, deadlines, and workflow preferences.</p>
+                </div>
+                
+                <div class="text-center reveal">
+                    <div class="w-20 h-20 bg-legal-gold rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">2</div>
+                    <h3 class="text-2xl font-bold mb-4">Automate Critical Tasks</h3>
+                    <p class="text-gray-300">Automated intake forms, conflict checks, deadline tracking, client updates, and document generation—all running 24/7 without your input.</p>
+                </div>
+                
+                <div class="text-center reveal">
+                    <div class="w-20 h-20 bg-winn-blue rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">3</div>
+                    <h3 class="text-2xl font-bold mb-4">Scale & Optimize</h3>
+                    <p class="text-gray-300">Handle 3x more cases with the same staff. Get predictive insights on case outcomes and resource allocation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="py-24 bg-deep-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">Complete Case Management</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto reveal">Everything you need to run a modern law firm</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-3 text-legal-gold">Smart Intake Automation</h3>
+                    <p class="text-gray-300">8-minute intake calls with AI-powered conflict checking and case type classification.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-3 text-legal-gold">Deadline Intelligence</h3>
+                    <p class="text-gray-300">Proactive deadline tracking with statute of limitations alerts and court calendar sync.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-3 text-legal-gold">Document Assembly</h3>
+                    <p class="text-gray-300">Generate pleadings, contracts, and correspondence using your firm's templates and data.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-3 text-legal-gold">Client Communication Hub</h3>
+                    <p class="text-gray-300">Automated status updates, appointment reminders, and secure client portal access.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-3 text-legal-gold">Billing & Collections</h3>
+                    <p class="text-gray-300">Smart time tracking, automated invoicing, and payment reminder sequences.</p>
+                </div>
+                
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-3 text-legal-gold">Court Date Management</h3>
+                    <p class="text-gray-300">Calendar integration with conflict checking and automatic client notifications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Calculator -->
+    <section class="py-24 bg-legal-navy">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">Calculate Your ROI</h2>
+                <p class="text-xl text-gray-300 reveal">See how much revenue CaseFlow can recover for your firm</p>
+            </div>
+            
+            <div class="glass-card p-8 rounded-xl">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 text-legal-gold">Your Firm Details</h3>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-2">Number of Attorneys</label>
+                            <input type="number" id="attorneys" value="3" min="1" max="50" class="w-full p-3 rounded-lg bg-deep-navy border border-gray-600 text-white">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-2">Cases per Month</label>
+                            <input type="number" id="cases" value="25" min="1" max="500" class="w-full p-3 rounded-lg bg-deep-navy border border-gray-600 text-white">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-2">Average Billable Rate ($/hour)</label>
+                            <input type="number" id="billable-rate" value="350" min="100" max="1000" class="w-full p-3 rounded-lg bg-deep-navy border border-gray-600 text-white">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-2">Admin Hours per Attorney per Week</label>
+                            <input type="number" id="admin-hours" value="12" min="5" max="30" class="w-full p-3 rounded-lg bg-deep-navy border border-gray-600 text-white">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 text-legal-gold">Annual Revenue Recovery</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 bg-deep-navy rounded-lg">
+                                <span>Hours Recovered per Week</span>
+                                <span id="hours-recovered" class="font-bold text-legal-gold">24 hours</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-deep-navy rounded-lg">
+                                <span>Additional Billable Revenue</span>
+                                <span id="additional-revenue" class="font-bold text-legal-gold">$436,800</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-deep-navy rounded-lg">
+                                <span>CaseFlow Annual Cost</span>
+                                <span class="font-bold text-red-400">$23,988</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-legal-gold text-legal-navy rounded-lg">
+                                <span class="font-bold">Net Annual Benefit</span>
+                                <span id="net-benefit" class="font-bold text-2xl">$412,812</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center p-4 bg-winn-blue rounded-lg">
+                                <span class="font-bold">ROI</span>
+                                <span id="roi-percentage" class="font-bold text-2xl">1,721%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <a href="mailto:hello@caseflow.ai" class="w-full bg-legal-gold text-legal-navy hover:bg-yellow-600 px-6 py-3 rounded-lg font-semibold transition-colors block text-center">
+                                Get Your Custom ROI Report
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 bg-deep-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">Simple, Transparent Pricing</h2>
+                <p class="text-xl text-gray-300 reveal">Choose the plan that fits your firm size</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">Solo</h3>
+                        <div class="text-4xl font-bold text-legal-gold mb-2">$999</div>
+                        <div class="text-gray-400">per month</div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> 1 Attorney</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Up to 20 cases/month</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Smart intake automation</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Deadline tracking</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Client portal</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Email support</li>
+                    </ul>
+                    <a href="mailto:hello@caseflow.ai" class="w-full border border-legal-gold text-legal-gold hover:bg-legal-gold hover:text-legal-navy px-6 py-3 rounded-lg font-semibold transition-colors block text-center">
+                        Start Free Trial
+                    </a>
+                </div>
+                
+                <div class="glass-card p-8 rounded-xl border-2 border-winn-blue reveal relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-winn-blue px-4 py-1 rounded-full text-sm font-semibold">
+                        Most Popular
+                    </div>
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">Firm</h3>
+                        <div class="text-4xl font-bold text-legal-gold mb-2">$1,999</div>
+                        <div class="text-gray-400">per month</div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Up to 10 attorneys</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Unlimited cases</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Everything in Solo</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Document assembly</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Advanced analytics</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Phone support</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Custom integrations</li>
+                    </ul>
+                    <a href="mailto:hello@caseflow.ai" class="w-full bg-winn-blue hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition-colors block text-center">
+                        Start Free Trial
+                    </a>
+                </div>
+                
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <div class="text-4xl font-bold text-legal-gold mb-2">$3,499</div>
+                        <div class="text-gray-400">per month</div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Unlimited attorneys</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Everything in Firm</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> White-label options</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> API access</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Dedicated success manager</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Priority support</li>
+                        <li class="flex items-center"><span class="text-green-400 mr-2">✓</span> Custom development</li>
+                    </ul>
+                    <a href="mailto:hello@caseflow.ai" class="w-full border border-legal-gold text-legal-gold hover:bg-legal-gold hover:text-legal-navy px-6 py-3 rounded-lg font-semibold transition-colors block text-center">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-gray-400 mb-4">All plans include $3,000 setup and migration assistance</p>
+                <p class="text-sm text-gray-500">30-day free trial • No long-term contracts • Cancel anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-24 bg-legal-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">Trusted by Law Firms</h2>
+                <p class="text-xl text-gray-300 reveal">See what attorneys are saying about CaseFlow</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="mb-6">
+                        <div class="flex text-legal-gold mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-gray-300 italic">"CaseFlow eliminated our missed deadline problem completely. We've recovered 12 billable hours per week and our client satisfaction scores increased by 40%. The AI actually learns how we work."</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-legal-gold rounded-full flex items-center justify-center text-legal-navy font-bold mr-4">MS</div>
+                        <div>
+                            <div class="font-semibold">Michael Stevens</div>
+                            <div class="text-sm text-gray-400">Managing Partner, Stevens & Associates</div>
+                            <div class="text-sm text-gray-500">Personal Injury Law, Sacramento</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="mb-6">
+                        <div class="flex text-legal-gold mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-gray-300 italic">"The intake automation is incredible. What used to take 45 minutes now takes 8 minutes, and we're converting 35% more consultations. Our paralegal can focus on actual legal work instead of data entry."</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-legal-gold rounded-full flex items-center justify-center text-legal-navy font-bold mr-4">AR</div>
+                        <div>
+                            <div class="font-semibold">Angela Rodriguez</div>
+                            <div class="text-sm text-gray-400">Senior Partner, Rodriguez Family Law</div>
+                            <div class="text-sm text-gray-500">Family Law, Placer County</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="mb-6">
+                        <div class="flex text-legal-gold mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-gray-300 italic">"Best investment we've made in 15 years of practice. The deadline tracking alone has saved us from two potential malpractice issues. Client communication is automated but feels personal."</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-legal-gold rounded-full flex items-center justify-center text-legal-navy font-bold mr-4">DW</div>
+                        <div>
+                            <div class="font-semibold">David Walsh</div>
+                            <div class="text-sm text-gray-400">Founding Partner, Walsh Criminal Defense</div>
+                            <div class="text-sm text-gray-500">Criminal Defense, Sacramento County</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 bg-deep-navy">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-300 reveal">Everything you need to know about CaseFlow AI</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="glass-card rounded-xl overflow-hidden reveal">
+                    <button class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors" onclick="toggleFAQ(1)">
+                        <span class="font-semibold text-lg">How does CaseFlow ensure we never miss critical deadlines?</span>
+                        <svg class="w-6 h-6 transition-transform" id="faq-icon-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 hidden" id="faq-content-1">
+                        <p class="text-gray-300">CaseFlow uses AI-powered deadline intelligence that connects to court calendars, state databases, and your case management system. It automatically calculates statute of limitations dates, tracks all court deadlines, and sends escalating alerts (email, SMS, Slack) starting 30 days before critical dates. The system learns your jurisdiction's specific rules and creates multiple backup reminders. We guarantee deadline tracking with malpractice insurance backing.</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl overflow-hidden reveal">
+                    <button class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors" onclick="toggleFAQ(2)">
+                        <span class="font-semibold text-lg">Is CaseFlow secure and compliant with attorney-client privilege?</span>
+                        <svg class="w-6 h-6 transition-transform" id="faq-icon-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 hidden" id="faq-content-2">
+                        <p class="text-gray-300">Yes. CaseFlow is SOC 2 Type II certified with enterprise-grade encryption (AES-256). All data is stored in HIPAA-compliant US data centers. We maintain attorney-client privilege through role-based access controls and audit logs. Our infrastructure is specifically designed for legal practices with features like conflict walls, ethical barriers, and privilege protection. We carry $5M in cyber liability insurance and undergo quarterly penetration testing.</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl overflow-hidden reveal">
+                    <button class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors" onclick="toggleFAQ(3)">
+                        <span class="font-semibold text-lg">How long does implementation take and will we lose data?</span>
+                        <svg class="w-6 h-6 transition-transform" id="faq-icon-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 hidden" id="faq-content-3">
+                        <p class="text-gray-300">Implementation typically takes 2-3 weeks with zero data loss. Our migration team handles data transfer from Clio, MyCase, PracticePanther, or any other system. We maintain parallel systems during transition and provide 40 hours of training included in setup. Your current system stays active until you're 100% confident. We also provide data rollback guarantees and 24/7 support during go-live week.</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl overflow-hidden reveal">
+                    <button class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors" onclick="toggleFAQ(4)">
+                        <span class="font-semibold text-lg">What integrations does CaseFlow support?</span>
+                        <svg class="w-6 h-6 transition-transform" id="faq-icon-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 hidden" id="faq-content-4">
+                        <p class="text-gray-300">CaseFlow integrates with 95% of legal tech stack: Outlook/Gmail, Google Calendar, QuickBooks, LawPay, DocuSign, Clio, MyCase, Dropbox, Box, Zoom, Microsoft Teams, court e-filing systems, and state bar databases. We also provide API access for custom integrations. If you use specialized software, our team builds custom connectors as part of Enterprise plans.</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl overflow-hidden reveal">
+                    <button class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors" onclick="toggleFAQ(5)">
+                        <span class="font-semibold text-lg">What if CaseFlow doesn't work for our specific practice area?</span>
+                        <svg class="w-6 h-6 transition-transform" id="faq-icon-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 hidden" id="faq-content-5">
+                        <p class="text-gray-300">CaseFlow is pre-configured for personal injury, family law, criminal defense, immigration, and estate planning, but adapts to any practice area. During our 30-day trial, our team customizes workflows, document templates, and automation rules for your specific cases. If we can't deliver measurable improvement, we provide a full refund and help migrate you back to your previous system at no cost.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-24 bg-legal-navy">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6 reveal">Ready to Never Miss Another Deadline?</h2>
+            <p class="text-xl text-gray-300 mb-8 reveal">Join 200+ law firms using CaseFlow to automate their practice and recover billable hours.</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <a href="mailto:hello@caseflow.ai" class="bg-winn-blue hover:bg-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105">
+                    Start 30-Day Free Trial
+                </a>
+                <a href="mailto:hello@caseflow.ai" class="border border-legal-gold text-legal-gold hover:bg-legal-gold hover:text-legal-navy px-8 py-4 rounded-lg text-lg font-semibold transition-all">
+                    Schedule Demo
+                </a>
+            </div>
+            
+            <div class="text-sm text-gray-400">
+                ✅ No credit card required &nbsp;&nbsp; ✅ Setup included &nbsp;&nbsp; ✅ 24/7 support
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-deep-navy border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold gradient-text mb-4">CaseFlow AI</div>
+                    <p class="text-gray-400 mb-4">AI-powered case management for modern law firms.</p>
+                    <div class="text-sm text-gray-500">
+                        Powered by Winn Ventures<br>
+                        Sacramento, CA
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features" class="hover:text-legal-gold transition-colors">Features</a></li>
+                        <li><a href="#pricing" class="hover:text-legal-gold transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Integrations</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Security</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-legal-gold transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2026 CaseFlow AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Hero Animation with Three.js
+        function initHeroAnimation() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Create network nodes
+            const geometry = new THREE.SphereGeometry(0.05, 8, 6);
+            const material = new THREE.MeshBasicMaterial({ color: 0x0066ff });
+            const nodes = [];
+            const connections = [];
+            
+            // Generate random nodes
+            for (let i = 0; i < 50; i++) {
+                const node = new THREE.Mesh(geometry, material);
+                node.position.set(
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 15,
+                    (Math.random() - 0.5) * 10
+                );
+                scene.add(node);
+                nodes.push(node);
+            }
+            
+            // Create connections between nearby nodes
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xB8860B, opacity: 0.3, transparent: true });
+            
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const distance = nodes[i].position.distanceTo(nodes[j].position);
+                    if (distance < 5 && Math.random() > 0.7) {
+                        const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                            nodes[i].position,
+                            nodes[j].position
+                        ]);
+                        const line = new THREE.Line(lineGeometry, lineMaterial);
+                        scene.add(line);
+                        connections.push(line);
+                    }
+                }
+            }
+            
+            camera.position.z = 10;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate the entire scene slowly
+                scene.rotation.y += 0.002;
+                scene.rotation.x += 0.001;
+                
+                // Pulse nodes
+                nodes.forEach((node, index) => {
+                    const time = Date.now() * 0.001 + index * 0.1;
+                    node.material.opacity = 0.5 + 0.3 * Math.sin(time);
+                });
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // Scroll reveal animation
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // ROI Calculator
+        function initROICalculator() {
+            const attorneysInput = document.getElementById('attorneys');
+            const casesInput = document.getElementById('cases');
+            const billableRateInput = document.getElementById('billable-rate');
+            const adminHoursInput = document.getElementById('admin-hours');
+            
+            function calculateROI() {
+                const attorneys = parseInt(attorneysInput.value) || 0;
+                const cases = parseInt(casesInput.value) || 0;
+                const billableRate = parseInt(billableRateInput.value) || 0;
+                const adminHours = parseInt(adminHoursInput.value) || 0;
+                
+                // Calculate hours recovered (assuming 60% reduction in admin time)
+                const hoursRecoveredPerWeek = attorneys * adminHours * 0.6;
+                const hoursRecoveredPerYear = hoursRecoveredPerWeek * 52;
+                
+                // Calculate additional billable revenue
+                const additionalRevenue = hoursRecoveredPerYear * billableRate;
+                
+                // CaseFlow annual cost (assuming Firm plan)
+                const caseflowCost = 1999 * 12;
+                
+                // Net benefit
+                const netBenefit = additionalRevenue - caseflowCost;
+                
+                // ROI percentage
+                const roiPercentage = ((netBenefit / caseflowCost) * 100).toFixed(0);
+                
+                // Update UI
+                document.getElementById('hours-recovered').textContent = hoursRecoveredPerWeek.toFixed(0) + ' hours';
+                document.getElementById('additional-revenue').textContent = '$' + additionalRevenue.toLocaleString();
+                document.getElementById('net-benefit').textContent = '$' + netBenefit.toLocaleString();
+                document.getElementById('roi-percentage').textContent = roiPercentage + '%';
+            }
+            
+            // Add event listeners
+            [attorneysInput, casesInput, billableRateInput, adminHoursInput].forEach(input => {
+                input.addEventListener('input', calculateROI);
+            });
+            
+            // Initial calculation
+            calculateROI();
+        }
+        
+        // FAQ Toggle
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initHeroAnimation();
+            initScrollReveal();
+            initROICalculator();
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
